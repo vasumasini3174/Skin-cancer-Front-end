@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction-Page</title>
-    <link rel="stylesheet" href="index.css">
+    <title>Skin Cancer Prediction</title>
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
     <nav class="navbar">
@@ -13,46 +13,44 @@
             Skin Cancer Predictor
         </div>
         <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="predict.html">Predict</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="home.html">Log-Out</a></li>
         </ul>
     </nav>
-    <div class="predict-container">
-        <h2>Skin Cancer Prediction </h2>
-        <form id="predictForm" enctype="multipart/form-data">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+    <div class="content">
+        <h1>Welcome to the Skin Cancer Prediction System</h1>
+        <div class="info-dialog">
+            <h2>About Skin Cancer</h2>
+            <p>
+                Skin cancer is the abnormal growth of skin cells, most often developing on skin exposed to the sun. Early detection and diagnosis are crucial for effective treatment and better outcomes.
+            </p>
+            <ul>
+                <li>
+                    <strong>Basal Cell Carcinoma (BCC):</strong> The most common type, usually appears as a slightly transparent bump on the skin. It rarely spreads but can cause local damage if untreated.
+                </li>
+                <li>
+                    <strong>Squamous Cell Carcinoma (SCC):</strong> Often appears as a firm, red nodule or a flat lesion with a scaly, crusted surface. It can spread to other parts of the body if not treated early.
+                </li>
+                <li>
+                    <strong>Melanoma:</strong> The most serious type, can develop anywhere on the body. It often appears as a new, unusual growth or a change in an existing mole. Early detection is critical as melanoma can spread rapidly.
+                </li>
+            </ul>
+        </div>
+        <div class="info-dialog">
+            <h2>How Our Prediction System Helps</h2>
+            <p>
+                Our Skin Cancer Prediction website uses advanced machine learning algorithms to analyze skin lesion images and provide an early indication of potential skin cancer. By uploading an image of a skin lesion, users can receive a preliminary assessment, which can help in:
+            </p>
+            <ul>
+                <li>Detecting skin cancer at an early stage, when treatment is most effective.</li>
+                <li>Raising awareness about suspicious skin changes that may require medical attention.</li>
+                <li>Encouraging timely consultation with healthcare professionals for further diagnosis and treatment.</li>
+            </ul>
+        </div>
 
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" min="0" required>
-
-            <label for="gender">Gender:</label>
-            <select id="gender" name="gender" required>
-                <option value="">Select</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-            </select>
-
-            <label for="alcoholic">Are you an alcoholic?</label>
-            <select id="alcoholic" name="alcoholic" required>
-                <option value="">Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-
-            <label for="smoker">Are you a smoking addict?</label>
-            <select id="smoker" name="smoker" required>
-                <option value="">Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-
-            <label for="image">Upload Skin Lesion Image:</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
-
-            <button type="submit">Predict</button>
-        </form>
+        </div>
     </div>
 </body>
-</html>        
+</html>
