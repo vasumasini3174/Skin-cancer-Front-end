@@ -30,18 +30,6 @@
             Already have an account? <a href="login.html">Login here</a>
         </p>
     </div>
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
-            if (password !== confirmPassword) {
-                alert('Password and Confirm Password do not match!');
-                return;
-            }
-            alert('Registration successful!');
-            window.location.href = 'index.html';
-        });
-    </script>
+    <script src="register.js"></script>
 </body>
 </html>
