@@ -1,73 +1,99 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql2');
 const path = require('path');
+const app = express();
 
-const port = 3000;
+app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(express.static(__dirname)); // Serve static files
 
-const server = http.createServer((req, res) => {
-    let filePath = '';
-    let contentType = 'text/html';
+const db = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'Vasu@3174',
+    database: 'major_project_phase-1'
+});
 
-    if (req.url === '/' || req.url === '/home.html') {
-        filePath = path.join(__dirname, 'home.html');
-    } else if (req.url === '/home.css') {
-        filePath = path.join(__dirname, 'home.css');
-        contentType = 'text/css';
-    } else if (req.url === '/login.html') {
-        filePath = path.join(__dirname, 'login.html');
-    } else if (req.url === '/login.css') {
-        filePath = path.join(__dirname, 'login.css');
-        contentType = 'text/css';
-    } else if (req.url === '/login.js') {
-        filePath = path.join(__dirname, 'login.js');
-        contentType = 'application/javascript';
-    } else if (req.url === '/register.html') {
-        filePath = path.join(__dirname, 'register.html');
-    } else if (req.url === '/register.css') {
-        filePath = path.join(__dirname, 'register.css');
-        contentType = 'text/css';
-    } else if (req.url === '/register.js') {
-        filePath = path.join(__dirname, 'register.js');
-        contentType = 'application/javascript';
-    } else if (req.url === '/index.html') {
-        filePath = path.join(__dirname, 'index.html');
-    } else if (req.url === '/index.css') {
-        filePath = path.join(__dirname, 'index.css');
-        contentType = 'text/css';
-    } else if (req.url === '/predict.html') {
-        filePath = path.join(__dirname, 'predict.html');
-    } else if (req.url === '/predict.css') {
-        filePath = path.join(__dirname, 'predict.css');
-        contentType = 'text/css';
-    } else if (req.url === '/predict.js') {
-        filePath = path.join(__dirname, 'predict.js');
-        contentType = 'application/javascript';
-    } else if (req.url === '/profile.html') {
-        filePath = path.join(__dirname, 'profile.html');
-    } else if (req.url === '/profile.css') {
-        filePath = path.join(__dirname, 'profile.css');
-        contentType = 'text/css';
-    } else if (req.url === '/logo.png') {
-        filePath = path.join(__dirname, 'logo.png');
-        contentType = 'image/png';
-    } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('404 Not Found');
-        return;
+db.connect();
+
+// Registration API
+app.post('/register', (req, res) => {
+    const { first_name, last_name, username, email, password, confirm_password, age, gender } = req.body;
+    if (password !== confirm_password) {
+        return res.send('Password and Confirm Password do not match!');
     }
-
-    fs.readFile(filePath, (err, data) => {
+    const sql = 'INSERT INTO users (UserName, FirstName, LastName, Email, Password, Age, Gender) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    db.query(sql, [username, first_name, last_name, email, password, age, gender], (err, result) => {
         if (err) {
-            res.writeHead(500, { 'Content-Type': 'text/plain' });
-            res.end('Internal Server Error');
+            return res.send('Error registering user.');
+        }
+        res.send('Registration successful!');
+    });
+});
+// Login API
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    // First, check if the username exists
+    const sqlUser = 'SELECT * FROM users WHERE username = ?';
+    db.query(sqlUser, [username], (err, results) => {
+        if (err) return res.json({ success: false, message: 'Server error.' });
+        if (results.length === 0) {
+            // Username not found
+            return res.json({ success: false, message: 'No account found. Please register.' });
         } else {
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(data);
+            // Username found, check password
+            const sqlPass = 'SELECT * FROM users WHERE username = ? AND password = ?';
+            db.query(sqlPass, [username, password], (err2, results2) => {
+                if (err2) return res.json({ success: false, message: 'Server error.' });
+                if (results2.length > 0) {
+                    // Success
+                    res.json({ success: true });
+                } else {
+                    // Password incorrect
+                    res.json({ success: false, message: 'Password is incorrect. Try again.' });
+                }
+            });
         }
     });
 });
+//check username availability API
+app.post('/check-username', (req, res) => {
+    const { username } = req.body;
+    db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+        if (err) return res.json({ exists: false });
+        res.json({ exists: results.length > 0 });
+    });
+});
+// Serve home.html as default
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'home.html'));
+});
 
-server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-    console.log(`Visit http://localhost:${port} to access the server`);
+app.use(express.static(__dirname));
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
+
+// Profile API
+// Add this route to your Express server (home.js or server.js)
+app.get('/get-profile', (req, res) => {
+    const username = req.query.username;
+    db.query('SELECT * FROM users WHERE UserName = ?', [username], (err, results) => {
+        if (err || results.length === 0) {
+            return res.json({ success: false });
+        }
+        const user = results[0];
+        res.json({
+            success: true,
+            user: {
+                username: user.UserName, // Use the exact column name
+                first_name: user.FirstName || '',
+                last_name: user.LastName || '',
+                email: user.Email || '',
+                age: user.Age || '',
+                gender: user.Gender || ''
+            }
+        });
+    });
 });
