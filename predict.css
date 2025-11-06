@@ -103,6 +103,19 @@ body {
 #predictForm button:hover {
     background: #003c8f;
 }
+/* Add or update in predict.css */
+.result-box {
+    background: #f5faff;
+    border-left: 6px solid #1565c0;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(21, 101, 192, 0.07);
+    padding: 1.5rem 2rem;
+    max-width: 700px;      /* Increased width */
+    min-width: 350px;
+    margin: 30px auto 0 auto;
+    text-align: left;
+    display: block;
+}
 
 @media (max-width: 500px) {
     .predict-container {

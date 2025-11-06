@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     min-height: 100vh;
-    background: white;
+    background: #fff;
 }
 
 .navbar {
@@ -50,6 +50,36 @@ body {
     color: black;
 }
 
+.profile-container {
+    max-width: 500px;
+    margin: 60px 0 0 40px; /* Align to the left with some top and left margin */
+    padding: 2rem 2.5rem;
+    background: #f5faff;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(21, 101, 192, 0.08);
+    text-align: center;
+}
+
+.profile-container h2 {
+    color: #1565c0;
+    margin-bottom: 1.5rem;
+}
+
+.profile-fields {
+    text-align: left;
+    margin: 0 auto;
+    max-width: 350px;
+}
+
+.profile-fields p {
+    font-size: 1.1rem;
+    margin: 0.7rem 0;
+    color: #2d3e50;
+}
+
+.profile-fields strong {
+    color: #1565c0;
+}
 
 
 @media (max-width: 700px) {
@@ -66,5 +96,15 @@ body {
     .content {
         padding: 1rem;
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-container {
+        padding: 1rem;
+        max-width: 95vw;
+    }
+    .profile-fields {
+        max-width: 100%;
     }
 }

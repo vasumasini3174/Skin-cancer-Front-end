@@ -19,29 +19,27 @@
     </nav>
     <div class="login-container">
         <h2>Sign up</h2>
+        <div id="registerMsg"></div>
         <form id="registerForm">
-            <input type="text" placeholder="Username" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="number" name="age" placeholder="Age" min="0" required>
+            <select type="choice" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" id="confirmPassword" placeholder="Confirm Password" required>
             <button type="submit">Register</button>
         </form>
         <p class="register-message">
             Already have an account? <a href="login.html">Login here</a>
         </p>
     </div>
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
-            if (password !== confirmPassword) {
-                alert('Password and Confirm Password do not match!');
-                return;
-            }
-            alert('Registration successful!');
-            window.location.href = 'index.html';
-        });
-    </script>
+    <script src="register.js"></script>
 </body>
 </html>
