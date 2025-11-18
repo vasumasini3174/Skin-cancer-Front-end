@@ -2,8 +2,9 @@
   "dependencies": {
     "express": "^5.1.0",
     "i": "^0.3.7",
+    "multer": "^2.0.2",
     "mysql": "^2.18.1",
-    "mysql2": "^3.15.1"
+    "mysql2": "^3.15.2"
   },
   "name": "project",
   "version": "1.0.0",
